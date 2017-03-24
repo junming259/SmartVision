@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.junming.cameratangle.MainActivity">
+
+
+    <Button
+        android:id="@+id/takePhotoButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Take Photo"
+        android:onClick="takePhoto"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginBottom="20dp"/>
+
+    <ImageView
+        android:layout_width="600dp"
+        android:layout_height="500dp"
+        android:id="@+id/capturePhotoImageView"
+        android:layout_above="@+id/takePhotoButton"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/takePhotoButton"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <Button
+        android:id="@+id/blackWhiteFilterButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Black/White"
+        android:onClick="filters"
+        app:layout_constraintLeft_toRightOf="@+id/originalImageButton"
+        app:layout_constraintRight_toLeftOf="@+id/takePhotoButton"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="20dp"/>
+
+    <Button
+        android:id="@+id/blueYellowFilterButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Blue/Yellow"
+        android:onClick="filters"
+        app:layout_constraintLeft_toRightOf="@+id/takePhotoButton"
+        app:layout_constraintRight_toLeftOf="@+id/edgeFilterButton"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="20dp"/>
+
+    <Button
+        android:id="@+id/edgeFilterButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="edge"
+        android:onClick="filters"
+        app:layout_constraintLeft_toRightOf="@+id/blueYellowFilterButton"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="20dp"/>
+
+    <Button
+        android:id="@+id/originalImageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="originialImage"
+        android:onClick="filters"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/blackWhiteFilterButton"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="20dp"/>
+
+</android.support.constraint.ConstraintLayout>
