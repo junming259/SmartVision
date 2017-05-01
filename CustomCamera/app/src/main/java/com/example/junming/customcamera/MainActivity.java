@@ -31,19 +31,18 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
     private Mat mRgba, imgGray;
     private int indicator = 0;
 
+
     BaseLoaderCallback mLoaderCallBack = new BaseLoaderCallback(this) {
         @Override
         public void onManagerConnected(int status) {
             switch(status){
-                case BaseLoaderCallback.SUCCESS:
-                {
+                case BaseLoaderCallback.SUCCESS: {
                     mJavaCameraView.enableView();
                     break;
                 }
-            default:
-                {
-                super.onManagerConnected(status);
-                break;
+                default:{
+                    super.onManagerConnected(status);
+                    break;
                 }
             }
         }
@@ -62,6 +61,7 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         mJavaCameraView = (JavaCameraView) findViewById(R.id.JCView);
         mJavaCameraView.setVisibility(SurfaceView.VISIBLE);
         mJavaCameraView.setCvCameraViewListener(this);
@@ -142,6 +142,12 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
         switch (indicator % 3) {
             // display gray scale image
             case (1):
+
+                // free out memory
+                mRgba.release();
+                lMat = null;
+                System.gc();
+
                 return imgGray;
 
             // display blue/yellow image
@@ -162,10 +168,24 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
                 // merge four-channel mat list into a big mat
                 Core.merge(lMat, blueYellowMat);
 
+                // free out memory
+                max.release();
+                blueChannel.release();
+                mRgba.release();
+                imgGray.release();
+                lMat = null;
+                System.gc();
+
                 return blueYellowMat;
 
             default:
                 // display original color image
+                // free out memory
+
+                imgGray.release();
+                lMat = null;
+                System.gc();
+
                 return mRgba;
 
         }
