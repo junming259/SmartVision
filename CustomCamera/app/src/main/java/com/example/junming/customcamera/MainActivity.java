@@ -139,10 +139,17 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
         // split an image into four channels (r,g,b,alpha), and pass them into four Mats
         Core.split(mRgba, lMat);
 
-        switch (indicator % 3) {
+        // define helper variables
+        // define a scalar
+        Scalar maximum = new Scalar(255);
+        // compute b channel value, first create 255 * ones[], then subtract gray scale value
+        Mat max = Mat.ones(imgGray.size(), imgGray.type());
+
+
+        switch (indicator % 5) {
+
             // display gray scale image
             case (1):
-
                 // free out memory
                 mRgba.release();
                 lMat = null;
@@ -150,15 +157,26 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
 
                 return imgGray;
 
-            // display blue/yellow image
+
+            // display inverse gray scale image
             case (2):
+                // free out memory
+                mRgba.release();
+                lMat = null;
+                System.gc();
+                // inverse gray scale image
+                Core.multiply(max, maximum, max);
+                Core.subtract(max, imgGray, imgGray);
+
+                return imgGray;
+
+
+            // display blue/yellow image
+            case (3):
                 // base on grayscale image, only need to change b channel matrix (255 - value)
                 lMat.set(0, imgGray);
                 lMat.set(1, imgGray);
 
-                // compute b channel value, first create 255 * ones[], then subtract gray scale value
-                Scalar maximum = new Scalar(255);
-                Mat max = Mat.ones(imgGray.size(), imgGray.type());
                 Core.multiply(max, maximum, max);
                 Mat blueChannel = new Mat();
                 Core.subtract(max, imgGray, blueChannel);
@@ -179,21 +197,37 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
                 return blueYellowMat;
 
 
-            case (3):
-
-                return;
-
-
+            // display yellow/blue image
             case (4):
+                // base on grayscale image, only need to change b channel matrix (255 - value)
+                lMat.set(2, imgGray);
 
-                return;
+                // compute b channel value, first create 255 * ones[], then subtract gray scale value
+                Core.multiply(max, maximum, max);
+                Mat greenChannel = new Mat();
+                Core.subtract(max, imgGray, greenChannel);
 
+                lMat.set(0, greenChannel);
+                lMat.set(1, greenChannel);
+
+                Mat yellowBlueMat = new Mat();
+                // merge four-channel mat list into a big mat
+                Core.merge(lMat, yellowBlueMat);
+
+                // free out memory
+                max.release();
+                greenChannel.release();
+                mRgba.release();
+                imgGray.release();
+                lMat = null;
+                System.gc();
+
+                return yellowBlueMat;
 
 
             default:
                 // display original color image
                 // free out memory
-
                 imgGray.release();
                 lMat = null;
                 System.gc();
