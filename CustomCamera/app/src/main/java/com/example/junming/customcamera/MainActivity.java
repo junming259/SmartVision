@@ -178,6 +178,18 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
 
                 return blueYellowMat;
 
+
+            case (3):
+
+                return;
+
+
+            case (4):
+
+                return;
+
+
+
             default:
                 // display original color image
                 // free out memory
